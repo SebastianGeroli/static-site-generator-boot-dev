@@ -23,5 +23,19 @@ class HTMLNode:
     def __repr__(self):
         return f"HTMLNode({self.tag},{self.value},{self.children},{self.props})"
 
+class ParentNode(HTMLNode):
+    def __init__(self, tag:str, children:list[HTMLNode], props:Props = None):
+        super().__init__(tag=tag, children=children, props=props)
+
+    def to_html(self):
+        if not self.tag:
+            raise ValueError("Parent node must have a tag")
+        if not self.children:
+            raise ValueError("Parent must have childrens")
+        childrenHtml = []
+        for child in self.children:
+            childrenHtml.append(child.to_html())
+        return f'<{self.tag}>{"".join(childrenHtml)}</{self.tag}>'
+        
     
         
