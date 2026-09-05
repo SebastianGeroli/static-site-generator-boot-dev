@@ -1,4 +1,2 @@
 # Ignore pyhthon cache
 __pycache__/
-
-public/
