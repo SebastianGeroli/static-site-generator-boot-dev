@@ -1,7 +1,7 @@
 from src.htmlnode import HTMLNode, Props
 
 class LeafNode(HTMLNode):
-    def __init__(self, tag:str, value:str, props:Props = None):
+    def __init__(self, tag:str | None, value:str, props:Props | None = None):
         super().__init__(value=value, tag=tag, props=props)
 
     def to_html(self):

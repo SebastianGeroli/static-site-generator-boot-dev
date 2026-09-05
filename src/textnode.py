@@ -11,12 +11,14 @@ class TextType(Enum):
     IMAGE = 6
 
 class TextNode:
-    def __init__(self,text:str, text_type:TextType, url:str = None):
+    def __init__(self,text:str, text_type:TextType, url:str | None = None):
         self.text = text
         self.text_type = text_type
         self.url = url
 
-    def __eq__(self, other:"TextNode"):
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, TextNode):
+            return False
         if self.text != other.text:
             return False
         if self.text_type != other.text_type:
@@ -47,5 +49,22 @@ def text_node_to_html_node(text_node: TextNode) -> LeafNode:
             raise ValueError(f"TextType: {text_node.text_type} not handled")
 
 
-    
-
+def split_nodes_delimiter(old_nodes: list[TextNode], delimiter: str, text_type: TextType) -> list[TextNode]:
+    new_nodes:list[TextNode]= []
+    for old_node in old_nodes:
+        if old_node.text_type != TextType.TEXT:
+            new_nodes.append(old_node)
+            continue
+        split_nodes = []
+        sections = old_node.text.split(delimiter)
+        if len(sections) % 2 == 0:
+            raise ValueError("invalid markdown, formatted section not closed")
+        for i in range(len(sections)):
+            if sections[i] == "":
+                continue
+            if i % 2 == 0:
+                split_nodes.append(TextNode(sections[i], TextType.TEXT))
+            else:
+                split_nodes.append(TextNode(sections[i], text_type))
+        new_nodes.extend(split_nodes)
+    return new_nodes

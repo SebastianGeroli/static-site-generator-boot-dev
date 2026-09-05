@@ -1,8 +1,8 @@
 
-type Props = dict[str,str]
+type Props = dict[str, str | None]
 
 class HTMLNode:
-    def __init__(self, tag:str = None, value:str = None, children:list["HTMLNode"] = None, props:Props = None):
+    def __init__(self, tag:str | None = None, value:str | None = None, children:list["HTMLNode"] | None = None, props:Props | None = None):
         self.tag = tag
         self.value = value
         self.children = children
@@ -24,7 +24,7 @@ class HTMLNode:
         return f"HTMLNode({self.tag},{self.value},{self.children},{self.props})"
 
 class ParentNode(HTMLNode):
-    def __init__(self, tag:str, children:list[HTMLNode], props:Props = None):
+    def __init__(self, tag:str, children:list[HTMLNode], props:Props | None = None):
         super().__init__(tag=tag, children=children, props=props)
 
     def to_html(self):
