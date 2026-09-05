@@ -13,3 +13,6 @@ class TestLeafNode(unittest.TestCase):
     def test_leaf_to_html_b(self):
         node = LeafNode("b", "Hello, world!")
         self.assertEqual(node.to_html(), "<b>Hello, world!</b>")
+
+if __name__ == "__main__":
+    unittest.main()

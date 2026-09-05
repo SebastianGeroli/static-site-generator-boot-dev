@@ -17,4 +17,6 @@ class TestHTMLNode(unittest.TestCase):
             node = HTMLNode(tag="<a>")
             self.assertEqual(node.tag,"<a>")
             
-    
+
+if __name__ == "__main__":
+    unittest.main()
