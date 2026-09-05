@@ -1,6 +1,7 @@
 import re
 from enum import Enum
-from src.leafnode import LeafNode
+
+from htmlnode import LeafNode
 
 class TextType(Enum):
     TEXT = 1
@@ -135,13 +136,3 @@ def text_to_textnodes(text:str)->list[TextNode]:
     nodes = split_nodes_image(nodes)
     nodes = split_nodes_link(nodes)
     return nodes
-
-def markdown_to_blocks(markdown:str)->list[str]:
-    blocks:list[str] = []
-    markdown_splitted = markdown.split("\n\n")
-    for raw_block in markdown_splitted:
-        block = raw_block.strip()
-        if block == "":
-            continue
-        blocks.append(block)
-    return blocks
