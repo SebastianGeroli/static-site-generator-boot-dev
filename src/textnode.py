@@ -1,5 +1,5 @@
+import re
 from enum import Enum
-
 from src.leafnode import LeafNode
 
 class TextType(Enum):
@@ -68,3 +68,14 @@ def split_nodes_delimiter(old_nodes: list[TextNode], delimiter: str, text_type: 
                 split_nodes.append(TextNode(sections[i], text_type))
         new_nodes.extend(split_nodes)
     return new_nodes
+
+def extract_markdown_images(text:str)->list[tuple[str,str]]:
+    image_pattern = r"!\[(.*?)\]\((.*?)\)"
+    images:list[tuple[str,str]] = re.findall(image_pattern, text)
+    return images
+
+def extract_markdown_links(text:str)->list[tuple[str,str]]:
+    link_pattern = r"(?<!!)\[(.*?)\]\((.*?)\)"
+    links:list[tuple[str,str]] = re.findall(link_pattern, text)
+    return links
+    
