@@ -23,10 +23,24 @@ def generate_page(from_path:str, template_path:str, dest_path:str):
     final_content = template_content.replace("{{ Title }}", title).replace("{{ Content }}",html)
     dest_dir = os.path.dirname(dest_path)
     if not os.path.exists(dest_dir):
-        os.mkdir(dest_dir)
+        os.makedirs(dest_dir)
     with open(dest_path, "w") as file:
         file.write(final_content)
 
-    
+def generate_pages_recursive(dir_path_content:str, template_path:str, dest_dir_path:str):
+    if not os.path.exists(dir_path_content):
+        raise Exception("content path is not valid")
+    if not os.path.exists(template_path):
+        raise Exception("tempalte path is not valid")
+    for item in os.listdir(dir_path_content):
+        from_path = os.path.join(dir_path_content, item)
+        target_path = os.path.join(dest_dir_path, item)
+        if os.path.isdir(from_path):
+            generate_pages_recursive(from_path, template_path, target_path)
+            continue
+        if os.path.isfile(from_path) and from_path.endswith(".md"):
+            generate_page(from_path, template_path, target_path.replace(".md",".html"))
+
+
 
     
