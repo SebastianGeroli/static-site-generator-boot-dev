@@ -8,7 +8,7 @@ def extract_title(markdown:str):
     first_line = lines[0]
     if not first_line.startswith("# "):
         raise Exception("Missing title!")
-    return first_line[1:]
+    return first_line[2:].strip()
 
 def generate_page(from_path:str, template_path:str, dest_path:str):
     print(f"Generating page from: {from_path} to {dest_path} using {template_path}")
@@ -20,11 +20,12 @@ def generate_page(from_path:str, template_path:str, dest_path:str):
         template_content = file.read()
     html = markdown_to_html_node(markdown_content).to_html()
     title = extract_title(markdown_content)
-    template_content.replace("{{Title}}", title).replace("{{Content}}",html)
-    if not os.path.exists(dest_path):
-        os.mkdir(dest_path)
+    final_content = template_content.replace("{{ Title }}", title).replace("{{ Content }}",html)
+    dest_dir = os.path.dirname(dest_path)
+    if not os.path.exists(dest_dir):
+        os.mkdir(dest_dir)
     with open(dest_path, "w") as file:
-        file.write(template_content)
+        file.write(final_content)
 
     
 

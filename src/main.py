@@ -10,7 +10,7 @@ def main():
     if os.path.exists(to_directory):
         shutil.rmtree(to_directory)
     copy_files_recursive(from_directory,to_directory)
-    generate_page("./content/index.md","template.html","./public/index.html")
+    generate_page("content/index.md","template.html","public/index.html")
 
 if __name__ == "__main__":
     main()
